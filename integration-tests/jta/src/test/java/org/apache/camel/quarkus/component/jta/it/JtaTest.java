@@ -67,6 +67,14 @@ class JtaTest {
 
         RestAssured.given()
                 .contentType(ContentType.TEXT)
+                .body("requires_new_2")
+                .post("/jta/requires_new_2")
+                .then()
+                .statusCode(201)
+                .body(is("requires_new_2"));
+
+        RestAssured.given()
+                .contentType(ContentType.TEXT)
                 .body(msg)
                 .post("/jta/mandatory")
                 .then()

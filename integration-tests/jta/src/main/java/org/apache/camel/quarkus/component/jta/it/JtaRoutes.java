@@ -36,6 +36,14 @@ public class JtaRoutes extends RouteBuilder {
         from("direct:requires_new")
                 .transacted("PROPAGATION_REQUIRES_NEW").transform().constant("requires_new");
 
+        from("direct:requires_new_2")
+                .transacted("PROPAGATION_REQUIRES_NEW")
+                .split(body()).delimiter("_").to("direct:splitted").end()
+                .log("log after splitter but you will not see this as not reached...")
+                .transform().constant("requires_new_2");
+
+        from("direct:splitted").to("mock:splitted");
+
         from("direct:mandatory")
                 .transacted("PROPAGATION_MANDATORY").transform().constant("mandatory");
 
